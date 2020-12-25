@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ThreadProgrammer</title>
+    <link href="/Assets/Css/tutotemplate.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="/Assets/Js/sunlight-min.js"></script>
+    <script type="text/javascript" src="/Assets/Js/sunlight.cpp-min.js"></script>
+    <script type="text/javascript" src="/Assets/Js/dna.core.js"></script>
+    <script type="text/javascript" src="/Assets/Js/ToCTuto.js"></script>
+    <script type="text/javascript" src="/Assets/Js/dna.scroll.core.js"></script>
+    <script type="text/javascript" src="/Assets/Js/dna.delay.js"></script>
+    <script type="text/javascript" src="/Assets/Js/dna.scroll.scrolldown.js"></script>
+    <script type="text/javascript" src="/Assets/Js/dna.scroll.animatein.js"></script>
+    <script type="text/javascript" src="/Assets/Js/dna.topmenu.js"></script>
+</head>
+
+<body>
+
+
+
+<!-- instead of include top menu -->
+<div class="top-menu-standard slide-in-down ToCTuto">
+
+    <!-- Top Menu Contents -->
+    <div>
+
+        <!-- Logo -->
+        <div class="menu-logo">
+            <a href="/">
+                <img src="/Assets/Images/logo-flat.png" />
+            </a>
+        </div>
+
+        <!-- Menu Icon -->
+        <div class="menu-icon">
+            <a href="#topmenu" data-toggle-class="expanded">
+                <i class="ion-navicon-round"></i>
+            </a>
+        </div>
+
+        <!-- Menu items -->
+        
+    </div>
+
+</div>
+
+
+<article class="my-name-is container single-vcenter">
+    <div class="grid-wrapper">
+        <div class="grid">
+            <ul data-topmenu-class="expanded">
+                <li>
+                    <a href="" class="back-to-top pointer" onclick="Copy_Situations();return false;">Copy Situations</a>
+                </li>
+                <li>
+                    <a href="" class="back-to-top pointer" onclick="Temporary_Definition();return false;">Temporary Definition</a>
+                </li>
+                <li>
+                    <a href="" class="back-to-top pointer" onclick="After_Moving();return false;">After Moving</a>
+                </li>
+            </ul>
+    
+            <div class="col">
+                <header>
+                    <div class="horizonline2"></div>
+                    <h2 id="alignlefttest">Move Semantics - Reasons to use and differences to Copy</h2>
+                    <h3 class="faded" data-delay-add="slide-in-up-group" data-delay="1.1" id="alignlefttest"><mark class="alternative2"><i class="ion-edit"></i></mark> Adib Hosseiny&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<mark class="alternative2"><i class="ion-calendar"></i></mark> 11/22/2020</h3>
+                    <div class="horizonline"></div>
+                    <div class="horizonline2"></div>
+                        <p id="alignlefttest">
+                            Previously when we do copy assignment and copy constructor, 
+                            simply copy the values from one object to another existing object.
+                             Now there is a choice in C++ for those who wants to avoid the copy
+                            mechanism used in copy constructor.</br>And its called Move Construction.
+                        </p>
+                        <p id="alignlefttest">
+                            Actually when you <mark>push_back()</mark> on a vector object
+                            or any container, you're passing an rvalue reference.
+                        </p>
+<pre class="sunlight-highlight-cpp">std::vector&lt;int&gt; v1;
+// passing some value (rvalue) to a vector object
+v1.push_back(23,34,65);
+</pre>
+                        <p id="alignlefttest">
+                            Move mechanism is about avoiding the copying of src obj to the dst object if its unnecessary.
+                            But if there is  a need to do copy assignment and construction, it isn't that much 
+                            expensive in relation to the simplicity of the project and abundance of resources.
+                        </p>
+                        <p id="alignlefttest">
+                            We <mark>move</mark> the values from one object to another existing object.
+                            By overloading <mark>operator =</mark>, not so that it takes an lvalue reference, like in copy assignment,
+                            but so that it takes an rvalue reference.</p>
+                            <p id="alignlefttest">
+                            Although if there's a need for definging <mark>how</mark> Move assignment is done, 
+                            here's an example:
+                        </p>
+                        
+
+
+<pre class="sunlight-highlight-cpp">class Test
+{
+    int var1;
+    Test& operator= (Test&& prop)
+    {
+        this->var1 = prop.var1;
+
+        // for example here we define moving
+        // like giving that property 0 value.
+        other.a = 0;
+    
+        // although we can null it out(N.W code)
+        other.a = nullptr;
+    
+        // or we can assign a string(value)
+        // telling the one who is 
+        // watching on this property
+        // what happened to this property
+        other.a = "moved";
+    
+        return *this;
+    }
+};
+</pre>
+
+
+                            <div class="horizonline2"></div>
+
+                            <p id="alignlefttest">
+                                There are 5 situations in which an object is being copyed or moved:</p>
+                                <div class="horizonline2"></div>
+
+                                <h2 class="borderingh2"><mark class="alternative2">As the source of an assignment</mark></h2>
+                                <h2 class="borderingh2"><mark class="alternative2">As an object initializer</mark></h2>
+                                <h2 class="borderingh2"><mark class="alternative2">As a function argument</mark></h2>
+                                <h2 class="borderingh2"><mark class="alternative2">As a function return value</mark></h2>
+                                <h2 class="borderingh2"><mark class="alternative2">As an exception</mark></h2>
+                                <div class="horizonline2"></div>
+                            </p>
+
+                            <div class="horizonline"></div>
+                            <div class="horizonline2"></div>
+
+
+                            <h2 id="alignlefttest">
+                                <mark class="alternative">Here is a simple definiton of each of these states:</mark>
+                            </h2>
+
+                            <div class="horizonline2"></div>
+
+                            <p id="alignlefttest">
+                               <p id="alignlefttest"><mark>1.As the source of an assignment</mark></p>
+                                
+                                <p id="alignlefttest">This happens whenever you assign a value to an object directly
+                                using assingment operator. Whether it is for class objects or even normal variables.
+                                 The value stored in that object(the source object) will be copied or moved due to 
+                                 instructions made there to destination object.
+                                </p>
+
+                                <div class="horizonline2"></div>
+
+                                <p id="alignlefttest"><mark>2.As an object initializer</mark></p>
+
+                                <p id="alignlefttest">
+                                    This is by using either copy constructor or move constructor. This is a special 
+                                    form of first examination; meaning that the copying or moving is done when you 
+                                    instantiate an object from  a class.
+                                </p>
+
+                                <div class="horizonline2"></div>
+
+                                <p id="alignlefttest"><mark>3.As a function argument</mark></p>
+                                
+                                <p id="alignlefttest">This is a common one when you pass some of your variables to 
+                                a function, and there values are replaced. When calling a function, values from 
+                                variables that you define in main(not exactly meaning just main function) function will 
+                                be copied or moved to objects in that function definition.
+                                </p>
+                                
+                                <div class="horizonline2"></div>
+
+                                <p id="alignlefttest"><mark>4.As a function return value</mark></p>
+
+                                <p id="alignlefttest">This is when you return something from a function. When a function returns
+                                    a value, its value will be copied or moved to whatever calles that function.
+                                </p>
+
+                                <div class="horizonline2"></div>
+
+                                <p id="alignlefttest"><mark>5.As an exception</mark></p>
+                                
+                                <p id="alignlefttest">This one happens when an exception is thrown and in your program is used 
+                                to help something in your program in someway. For example assume you have a function that somewhere inside this function
+                                an exception is thrown. This exception is being copied to where we've done catch(exception e) object, 
+                                or if don't catch it, it will be copy to another object to maintain exceptions and then throw to the face of user in runtime.
+                                </p>
+
+                            </p>
+                            <div class="horizonline2"></div>
+                            <div class="horizonline"></div>
+                            <div class="horizonline2"></div>
+
+                            <p id="alignlefttest">
+                                By having an overload of the object's constructor below,  
+                                we made a move constructor:
+                            </p>
+<pre class="sunlight-highlight-cpp">class account
+{
+    public:
+        // member varialble for sizing
+        int siz;
+        
+        // default ctor
+        account() = default;
+    
+        // overloaded constructor for rvalue references
+        account(account &&other)
+        {
+            this->siz = other.siz;
+
+            // this is the difference between copy constructor and move constructor
+            other.siz = 0;
+        }
+};
+</pre>
+                            <div class="horizonline2"></div>
+                            <div class="horizonline2"></div>
+                            <h2 id="alignlefttest"><mark>What is Temporary in C++</mark></h2>
+                            <p id="alignlefttest">
+                                The very first assumption in our minds about temporary is 
+                                values like "1,2,3" or "a,b,c" and ... .
+                                 But there is a more carefully done definition for temporaries
+                                in C++.</p>
+                                <p id="alignlefttest">Anything in C++ that its resources can be looted is Temporary.
+                                Not a hundred percent matching what we have in mind about temporaries, 
+                                but its more realistic in C++ world(maybe programming world).
+                            </p>
+<pre class="sunlight-highlight-cpp">// lvalue reference
+int var1 = 9;    
+
+int& var2 = var1;
+
+// rvalue reference assigned to another rvalue reference made by compiler
+int&& var3 = var2 + var2;</pre>
+
+                            <div class="horizonline2"></div>
+                            <div class="horizonline2"></div>
+                            <h2 id="alignlefttest"><mark>Some notes About std::move</mark></h2>
+                            <p id="alignlefttest">
+                                1.A move constructor is supposed to remove the value from its argument.</p>
+                                <p id="alignlefttest">
+                                2.A move operator is applied when a rvalue reference is used as an initializer or as the RHS of an assignment.</p>
+                                <p id="alignlefttest">
+                                3.<strong>std::move</strong> does not actually move anything.instead it returns a reference to its argument.</p>
+
+                                <div class="horizonline"></div>
+                                <div class="horizonline2"></div>
+
+                            <p id="alignlefttest">Whenever you call <strong>std::move</strong>, the move constructor of that object will be called.
+                            </p>
+<pre class="sunlight-highlight-cpp">// source object to be moved
+account a;
+
+// set its properties if needed
+a.siz = 1;
+
+// moving a using std::move
+// calling B(B&& other);
+account b (std::move(a));
+
+// check out results
+cout &lt;&lt; a.siz &lt;&lt; endl; //0
+cout &lt;&lt; b.siz &lt;&lt; endl; //1</pre>
+                            <div class="horizonline2"></div>                                      
+                            <div class="horizonline2"></div>                                      
+                            <h2 id="alignlefttest"><mark>What happens after moving an object?</mark></h2>
+                            <p id="alignlefttest">
+                                Watch out that moving an object, it is not in a determinate state
+                                for pushing it into a determinate state, We must reassign it with a value.</p>
+                                <p id="alignlefttest">
+                                For example, a move constructor of a vector might copy(move) the pointer to the head of the vector object 
+                                and store nullptr in the argument instead of allocating and copying individual elements.
+                            </p>
+                            
+                            <div class="horizonline2"></div>                                      
+                            <div class="horizonline2"></div>                                      
+                            <h2 id="alignlefttest"><mark>Some notes about moving and rvalues</mark></h2>
+                            <p id="alignlefttest">
+                            
+                                1.Another differentiation for <strong>rvalue</strong> and <strong>lvalue</strong>
+                                    is whether you can achieve their address or not?</p>
+                                    <p id="alignlefttest">
+                                2.Rvalue references cannot be initialized with lvalues. and there is an exception.
+                                and its when const lvalue reference can be</br>  &nbsp;&nbsp; assign an rvalue.</p>
+                                
+                                <p id="alignlefttest">
+                                3.Named objects are lvalue.</p>
+
+                                <p id="alignlefttest">
+                                4.never return a rvalue reference.because you'll catch a reference that is not useful
+                                  when you go out of the scope of the function.</p>
+
+<pre class="sunlight-highlight-cpp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+    
+    using namespace std;
+    
+    // Note that here we pass args by pointer
+    int& func(int* a, int* b)
+    {
+        // modify those 2 values that this function is referring
+        *a = 76;
+        *b = 49;
+        
+        // returning the content of one of those referrals
+        return *a;
+    }
+    
+    int main()
+    {
+        // declaring 2 values that will modify in our application
+        auto var1 = 4;
+        auto var2 = 3;
+    
+        // calling a function that will return a lvalue reference
+        auto res = func(&var1, &var2);
+    
+        // now if want to modify var1
+        var1 = 45;
+        
+        // here if want to access the result of what func() has returned,
+        // we achieve the last time content when func() is executed
+        cout &lt;&lt; "The content of result is " &lt;&lt; res &lt;&lt; endl;
+        
+        // checking values of var1 and var2
+        // (var1 is not anymore in under our control)
+        cout &lt;&lt; "Now var1 and var2 are changed :" &lt;&lt; endl &lt;&lt; "var1 equals = "
+        &lt;&lt; var1 &lt;&lt; " and var2 equals = " &lt;&lt; var2 &lt;&lt; endl;
+        
+    }
+            
+</pre>
+
+                            <div class="horizonline2"></div>
+
+                            <p id="alignlefttest">
+                                5.A move constructor is supposed to remove the value from its argument.
+                            </p>
+ 
+                            <div class="horizonline2"></div>
+ 
+                            <p id="alignlefttest">
+                                6.A move operator is applied when an rvalue reference is used as an initializer or as the RHS of an assignment.</br>  
+                            </p>
+
+                            <div class="horizonline2"></div>
+                            <div class="horizonline2"></div>
+                            <div class="horizonline"></div>
+                            <h3 id="alignlefttest"><mark class="alternative2"><i class="ion-ios-compose"></i></mark> Thanks for reading. Any Comments,</h3>
+                            <h3 id="alignlefttest">Please let me know at <mark>contact@threadprogrammer.com</mark></h3>
+                                     
+
+                </header>
+           </div>
+        </div>
+    </div>
+</article>
+
+<!-- Footer -->
+<section class="footer single-vcenter">
+    <div class="grid-wrapper">
+        <div class="grid horizontal-center">
+            <div class="col one-quarter below-lap-one-third">
+                <header>
+                    <p class="footerekoota"><mark> &copy; threadprogrammer Ltd</mark></p>
+                </header>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript">Sunlight.highlightAll();</script>
+
+
+</body>
+
+</html>
